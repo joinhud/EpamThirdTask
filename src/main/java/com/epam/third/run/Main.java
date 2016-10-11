@@ -1,20 +1,28 @@
 package com.epam.third.run;
 
-import java.util.ArrayDeque;
+import com.epam.third.entity.Port;
+import com.epam.third.entity.Ship;
+
+import java.util.Random;
 
 public class Main {
-
-    private static ArrayDeque<Integer> deque = new ArrayDeque<>();
-
     public static void main(String... param) {
-        deque.push(1);
-        deque.push(2);
-        deque.push(3);
-        deque.push(4);
-        deque.push(5);
+        Port port = Port.getInstance();
+        Random random = new Random();
 
-        deque.pop();
+        port.setStorageValue(230);
 
-        deque.forEach(item -> System.out.println(item.toString()));
+        for(int i = 0; i < 19; i++) {
+            new Ship(port.getDocks(), random.nextBoolean()).start();
+        }
+        Ship ship = new Ship(port.getDocks(), random.nextBoolean());
+        ship.start();
+        try {
+            ship.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Port storage = " + port.getStorage().get());
     }
 }
