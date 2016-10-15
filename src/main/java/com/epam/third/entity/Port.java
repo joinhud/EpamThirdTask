@@ -1,50 +1,47 @@
 package com.epam.third.entity;
 
 import com.epam.third.pool.DockPool;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.util.LinkedList;
+import java.util.ArrayDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Port {
-    private static Port instance = null;
+    public static final int STORAGE_MAX_SIZE = 500;
+    private static final int DOCKS_COUNT = 11;
+    private static Port instance;
     private static AtomicBoolean instanceCreated = new AtomicBoolean(false);
     private static Lock lock = new ReentrantLock();
-    private static final Logger LOG = LogManager.getRootLogger();
-    private static final int STORAGE_MAX_SIZE = 500;
 
     private DockPool docks;
     private AtomicInteger storage;
-    private int maxStorageSize;
-
 
     private Port() {
-        LinkedList<Dock> list = new LinkedList<>();
+        initDocks();
+        storage = new AtomicInteger();
+    }
 
-        for(int i = 0; i < 10; i++) {
-            list.add(new Dock(this));
+    private void initDocks() {
+        ArrayDeque<Dock> deque = new ArrayDeque<>();
+
+        for(int i = 1; i < DOCKS_COUNT; i++) {
+            deque.add(new Dock(this, i));
         }
 
-        docks = new DockPool(list);
-        storage = new AtomicInteger();
-        maxStorageSize = STORAGE_MAX_SIZE;
+        docks = new DockPool(deque);
     }
 
     public static Port getInstance() {
         if(!instanceCreated.get()) {
             try {
                 lock.lock();
-                if (!instanceCreated.get()) {
+                if (instance == null) {
                     instance = new Port();
-                    instanceCreated.set(true);
+                    instanceCreated.getAndSet(true);
                 }
-            } catch (Exception e) {
-                LOG.error(e);
-            } finally {
+            }  finally {
                 lock.unlock();
             }
         }
@@ -60,15 +57,11 @@ public class Port {
     }
 
     public void setStorageValue(int value) {
-        if(value <= maxStorageSize) {
+        if(value <= STORAGE_MAX_SIZE) {
             storage.set(value);
         } else {
-            storage.set(maxStorageSize);
+            storage.set(STORAGE_MAX_SIZE);
         }
-    }
-
-    public int getMaxStorageSize() {
-        return maxStorageSize;
     }
 
 }

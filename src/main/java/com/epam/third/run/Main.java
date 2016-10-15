@@ -2,6 +2,7 @@ package com.epam.third.run;
 
 import com.epam.third.entity.Port;
 import com.epam.third.entity.Ship;
+import com.epam.third.random.RandomUtil;
 
 import java.util.Random;
 
@@ -10,19 +11,11 @@ public class Main {
         Port port = Port.getInstance();
         Random random = new Random();
 
-        port.setStorageValue(230);
+        port.setStorageValue(RandomUtil.randomPortContainers());
 
-        for(int i = 0; i < 19; i++) {
-            new Ship(port.getDocks(), random.nextBoolean()).start();
+        for (int i = 0; i < 40; i++) {
+            new Ship(port.getDocks(), RandomUtil.randomShipState(),
+                    RandomUtil.randomShipContainers(), RandomUtil.randomShipContainers()).start();
         }
-        Ship ship = new Ship(port.getDocks(), random.nextBoolean());
-        ship.start();
-        try {
-            ship.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("Port storage = " + port.getStorage().get());
     }
 }
