@@ -20,7 +20,7 @@ public class Port {
 
     private Port() {
         initDocks();
-        storage = new AtomicInteger();
+        storage = new AtomicInteger(0);
     }
 
     private void initDocks() {
@@ -58,9 +58,9 @@ public class Port {
 
     public void setStorageValue(int value) {
         if(value <= STORAGE_MAX_SIZE) {
-            storage.set(value);
+            storage.getAndSet(value);
         } else {
-            storage.set(STORAGE_MAX_SIZE);
+            storage.getAndSet(STORAGE_MAX_SIZE);
         }
     }
 

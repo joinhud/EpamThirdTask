@@ -3,7 +3,6 @@ package com.epam.third.pool;
 import com.epam.third.entity.Dock;
 import com.epam.third.exception.DockPoolException;
 
-import java.beans.IntrospectionException;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.locks.Condition;

@@ -1,4 +1,4 @@
-package com.epam.third.state;
+package com.epam.third.strategy;
 
 import com.epam.third.action.PortAction;
 import com.epam.third.entity.Port;
@@ -7,7 +7,7 @@ import com.epam.third.exception.PortActionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class LoadState implements ShipState {
+public class LoadStrategy implements ShipStrategy {
     private static final Logger LOG = LogManager.getLogger();
 
     @Override
@@ -16,14 +16,13 @@ public class LoadState implements ShipState {
 
         try {
             if (action.loadContainers(port, ship.getContainersCount())) {
-                ship.setContainersCount(0);
-                System.out.println("Ship \'" + ship.getName()
-                        + "' was upload "
+                System.out.println(ship
+                        + " was load "
                         + ship.getContainersCount()
                         + " containers to port storage.");
+                ship.setContainersCount(0);
             } else {
-                System.out.println("Ship \'" + ship.getName()
-                        + "' didn't upload containers to port storage");
+                System.out.println(ship + " didn't load containers to port storage");
             }
         } catch (PortActionException e) {
             LOG.error(e);

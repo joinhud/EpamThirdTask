@@ -1,4 +1,4 @@
-package com.epam.third.state;
+package com.epam.third.strategy;
 
 import com.epam.third.action.PortAction;
 import com.epam.third.entity.Port;
@@ -7,7 +7,7 @@ import com.epam.third.exception.PortActionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class UnloadState implements ShipState {
+public class UnloadStrategy implements ShipStrategy {
     private static final Logger LOG = LogManager.getLogger();
 
     @Override
@@ -15,10 +15,10 @@ public class UnloadState implements ShipState {
         PortAction action = new PortAction();
 
         try {
-            int unloadedContainersCount = ship.getMaxStorageSize() - ship.getContainersCount();
-            ship.addContainers(action.unloadStorage(port, unloadedContainersCount));
-            System.out.println("Ship \'" + ship.getName()
-                    + "' was unload containers from port storage.");
+            int unloadContainersCount = ship.getMaxStorageSize() - ship.getContainersCount();
+            int unloadedContainers = action.unloadStorage(port, unloadContainersCount);
+            System.out.println(ship + " was unload " + unloadedContainers + " containers from port storage.");
+            ship.addContainers(unloadedContainers);
         } catch (PortActionException e) {
             LOG.error(e);
         }
