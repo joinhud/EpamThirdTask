@@ -26,7 +26,7 @@ public class Port {
     private void initDocks() {
         ArrayDeque<Dock> deque = new ArrayDeque<>();
 
-        for(int i = 1; i < DOCKS_COUNT; i++) {
+        for (int i = 1; i < DOCKS_COUNT; i++) {
             deque.add(new Dock(this, i));
         }
 
@@ -34,14 +34,14 @@ public class Port {
     }
 
     public static Port getInstance() {
-        if(!instanceCreated.get()) {
+        if (!instanceCreated.get()) {
             try {
                 lock.lock();
                 if (instance == null) {
                     instance = new Port();
                     instanceCreated.getAndSet(true);
                 }
-            }  finally {
+            } finally {
                 lock.unlock();
             }
         }
@@ -57,7 +57,7 @@ public class Port {
     }
 
     public void setStorageValue(int value) {
-        if(value <= STORAGE_MAX_SIZE) {
+        if (value <= STORAGE_MAX_SIZE) {
             storage.getAndSet(value);
         } else {
             storage.getAndSet(STORAGE_MAX_SIZE);

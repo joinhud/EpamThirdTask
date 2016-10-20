@@ -13,17 +13,17 @@ public class PortAction {
         if (!checkPort(port)) {
             throw new PortActionException("Port object is null.");
         }
-        if(containersCount > Port.STORAGE_MAX_SIZE) {
-            throw new PortActionException("Ship load containers more than storage size");
+        if (containersCount > Port.STORAGE_MAX_SIZE) {
+            throw new PortActionException("Ship try to load containers more than storage size");
         }
 
         boolean result = false;
 
-        try{
+        try {
             lock.lock();
 
             isStorageFull(port, containersCount);
-            if(containersCount >= 0) {
+            if (containersCount >= 0) {
                 port.getStorage().addAndGet(containersCount);
                 result = true;
             }
@@ -44,8 +44,8 @@ public class PortAction {
         try {
             lock.lock();
 
-            if(containersCount >= 0) {
-                if(containersCount >= port.getStorage().get()) {
+            if (containersCount >= 0) {
+                if (containersCount >= port.getStorage().get()) {
                     result = port.getStorage().get();
                     port.getStorage().set(0);
                 } else {

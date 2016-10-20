@@ -11,7 +11,7 @@ public class RandomUtil {
     private static final int MAX_SHIP_CONTAINERS = 200;
     private static final int MAX_PORT_SIZE = 500;
     private static final int STATE_COUNT = 3;
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
     public static int randomShipContainers() {
         return random.nextInt(MAX_SHIP_CONTAINERS);
@@ -26,11 +26,14 @@ public class RandomUtil {
         ShipStrategy result;
 
         switch (state) {
-            case 0: result = new LoadStrategy();
+            case 0:
+                result = new LoadStrategy();
                 break;
-            case 1: result = new UnloadStrategy();
+            case 1:
+                result = new UnloadStrategy();
                 break;
-            case 2: result = new LoadUnloadStrategy();
+            case 2:
+                result = new LoadUnloadStrategy();
                 break;
             default:
                 result = new LoadStrategy();

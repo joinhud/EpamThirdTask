@@ -45,7 +45,7 @@ public class Ship extends Thread {
     public boolean addContainers(int containersCount) {
         boolean result = false;
 
-        if(containersCount >= 0) {
+        if (containersCount >= 0) {
             this.containersCount += containersCount;
             result = true;
         }
@@ -58,7 +58,7 @@ public class Ship extends Thread {
     }
 
     public void setContainersCount(int containersCount) {
-        if(containersCount >= 0 && containersCount <= maxStorageSize) {
+        if (containersCount >= 0 && containersCount <= maxStorageSize) {
             this.containersCount = containersCount;
         } else {
             this.containersCount = maxStorageSize;
