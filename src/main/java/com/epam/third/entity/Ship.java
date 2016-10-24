@@ -11,10 +11,11 @@ import java.util.concurrent.TimeUnit;
 
 public class Ship extends Thread {
     private static final Logger LOG = LogManager.getLogger();
+    private final int MAX_STORAGE_SIZE = RandomUtil.randomShipContainers();
+
     private DockPool pool;
     private ShipStrategy strategy;
     private int containersCount;
-    private final int maxStorageSize = RandomUtil.randomShipContainers();
 
     public Ship(DockPool pool, ShipStrategy strategy, int containersCount) {
         this.pool = pool;
@@ -58,22 +59,22 @@ public class Ship extends Thread {
     }
 
     public void setContainersCount(int containersCount) {
-        if (containersCount >= 0 && containersCount <= maxStorageSize) {
+        if (containersCount >= 0 && containersCount <= MAX_STORAGE_SIZE) {
             this.containersCount = containersCount;
         } else {
-            this.containersCount = maxStorageSize;
+            this.containersCount = MAX_STORAGE_SIZE;
         }
     }
 
     public int getMaxStorageSize() {
-        return maxStorageSize;
+        return MAX_STORAGE_SIZE;
     }
 
     @Override
     public String toString() {
         return "Ship \'" + this.getName() +
                 "\' {containers = " + containersCount +
-                ", maxSize = " + maxStorageSize +
+                ", maxSize = " + MAX_STORAGE_SIZE +
                 '}';
     }
 }

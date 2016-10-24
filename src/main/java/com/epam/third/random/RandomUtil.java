@@ -10,8 +10,8 @@ import java.util.Random;
 public class RandomUtil {
     private static final int MAX_SHIP_CONTAINERS = 200;
     private static final int MAX_PORT_SIZE = 500;
-    private static final int STATE_COUNT = 3;
-    private static final Random random = new Random();
+    private static final int STRATEGY_COUNT = 3;
+    private static Random random = new Random();
 
     public static int randomShipContainers() {
         return random.nextInt(MAX_SHIP_CONTAINERS);
@@ -22,7 +22,7 @@ public class RandomUtil {
     }
 
     public static ShipStrategy randomShipStrategy() {
-        int state = Math.abs(random.nextInt(STATE_COUNT));
+        int state = Math.abs(random.nextInt(STRATEGY_COUNT));
         ShipStrategy result;
 
         switch (state) {

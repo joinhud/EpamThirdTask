@@ -9,11 +9,12 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Port {
-    public static final int STORAGE_MAX_SIZE = 500;
+    private static final Lock LOCK = new ReentrantLock();
     private static final int DOCKS_COUNT = 11;
+    public static final int STORAGE_MAX_SIZE = 500;
+
     private static Port instance;
     private static AtomicBoolean instanceCreated = new AtomicBoolean(false);
-    private static Lock lock = new ReentrantLock();
 
     private DockPool docks;
     private AtomicInteger storage;
@@ -36,13 +37,13 @@ public class Port {
     public static Port getInstance() {
         if (!instanceCreated.get()) {
             try {
-                lock.lock();
+                LOCK.lock();
                 if (instance == null) {
                     instance = new Port();
                     instanceCreated.getAndSet(true);
                 }
             } finally {
-                lock.unlock();
+                LOCK.unlock();
             }
         }
         return instance;
